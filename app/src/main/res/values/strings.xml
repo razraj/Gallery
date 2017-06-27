@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Work</string>
+
+
+    <!-- storage permission specific strings -->
+    <string name="dialog_ask_permission_title">Storage permission is required</string>
+    <string name="dialog_ask_permission_body">To download Pravachan offline, You need to give us a storage Permission by clicking \'Allow\' in the next dialog</string>
+
+</resources>
