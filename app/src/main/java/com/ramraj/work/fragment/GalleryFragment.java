@@ -74,18 +74,18 @@ public class GalleryFragment extends BaseFragment {
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(adapter);
+        ((HomeActivity) getActivity()).setTitleFromFragment("Gallery");
         observeFavoriteSelection();
-        if (images == null)
-            ObserveGallery();
-        else
+        if (images != null)
             adapter.setImages(images);
-        ((HomeActivity) getActivity()).showGallery();
+        else
+            ((HomeActivity) getActivity()).showGallery();
 
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_home, menu);
+//        inflater.inflate(R.menu.menu_home, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -103,7 +103,7 @@ public class GalleryFragment extends BaseFragment {
     }
 
     private void ObserveGallery() {
-        networkDisposable.add(GalleryImagesObserver.getInstance().getObservable()
+        GalleryImagesObserver.getInstance().getObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<ArrayList<Image>>() {
@@ -119,11 +119,11 @@ public class GalleryFragment extends BaseFragment {
                         images = imageList;
                         adapter.setImages(imageList);
                     }
-                }));
+                });
 
     }
 
-    private void observeFavoriteSelection(){
+    private void observeFavoriteSelection() {
         rxBusEventDisposable.add(RxBus.getInstance().toObservable().observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Object>() {
                     @Override
@@ -135,6 +135,8 @@ public class GalleryFragment extends BaseFragment {
                         } else if (o instanceof Events.OnItemLongClicked) {
                             onListItemSelected(((Events.OnItemLongClicked) o).getPosition());
 
+                        } else if (o instanceof Events.RefreshGallery) {
+                            ObserveGallery();
                         }
                     }
                 }));
@@ -147,7 +149,7 @@ public class GalleryFragment extends BaseFragment {
 
         if (hasCheckedItems && mActionMode == null) {
 //             there are some selected items, start the actionMode
-            mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new ToolbarActionModeCallback( adapter, this));
+            mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new ToolbarActionModeCallback(adapter, this));
         } else if (!hasCheckedItems && mActionMode != null) {
             // there no selected items, finish the actionMode
             mActionMode.finish();

@@ -63,7 +63,7 @@ public class FavoritesFragment extends BaseFragment {
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(adapter);
-
+        ((HomeActivity) getActivity()).setTitleFromFragment("favourites");
         if (images != null)
             recyclerView.setAdapter(adapter);
         else

@@ -25,7 +25,7 @@ import io.reactivex.annotations.NonNull;
 public enum GalleryImagesObserver {
     INSTANCE;
     private static String TAG = GalleryImagesObserver.class.getSimpleName();
-    Single observableSingle;
+    Observable observableSingle;
     private Context context;
 
     public static GalleryImagesObserver getInstance() {
@@ -40,10 +40,10 @@ public enum GalleryImagesObserver {
         getObservable();
     }
 
-    public Single<ArrayList<Image>> getObservable() {
-        observableSingle = Single.create(new SingleOnSubscribe() {
+    public Observable<ArrayList<Image>> getObservable() {
+        observableSingle = Observable.create(new ObservableOnSubscribe<Object>() {
             @Override
-            public void subscribe(@NonNull SingleEmitter e) throws Exception {
+            public void subscribe(@NonNull ObservableEmitter e) throws Exception {
                 Cursor cursor = null;
                 try {
                     Uri uri;
@@ -72,7 +72,7 @@ public enum GalleryImagesObserver {
                         images.add(image);
 
                     }
-                    e.onSuccess(images);
+                    e.onNext(images);
                 } catch (Exception exception) {
                     Log.d(TAG, "subscribe: error" + exception);
                 } finally {

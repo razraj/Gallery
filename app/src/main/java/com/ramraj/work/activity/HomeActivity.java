@@ -17,11 +17,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ramraj.work.Constants;
+import com.ramraj.work.Events;
 import com.ramraj.work.GalleryImagesObserver;
 import com.ramraj.work.R;
 import com.ramraj.work.fragment.EditImageFragment;
 import com.ramraj.work.fragment.FavoritesFragment;
 import com.ramraj.work.fragment.GalleryFragment;
+import com.ramraj.work.utils.RxBus;
 
 import java.util.List;
 
@@ -63,14 +65,13 @@ public class HomeActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @android.support.annotation.NonNull String[] permissions, @android.support.annotation.NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == Constants.STORAGE_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            GalleryImagesObserver.getInstance().refreshGallery();
-        }
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, PERMISSION_STORAGE)) {
+            RxBus.getInstance().sendEvent(new Events.RefreshGallery());
+        } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, PERMISSION_STORAGE)) {
             //denied
         } else {
             if (ActivityCompat.checkSelfPermission(this, PERMISSION_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 //allowed
-                GalleryImagesObserver.getInstance().refreshGallery();
+                RxBus.getInstance().sendEvent(new Events.RefreshGallery());
             } else {
                 //set to never ask again
             }
@@ -89,10 +90,18 @@ public class HomeActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * This method will preserve the title of activity
+     *
+     * @param title is title set according to current fragment
+     */
+    public void setTitleFromFragment(CharSequence title) {
+        setTitle(title);
+    }
 
     public void showGallery() {
         if (ContextCompat.checkSelfPermission(this, PERMISSION_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            GalleryImagesObserver.getInstance().refreshGallery();
+            RxBus.getInstance().sendEvent(new Events.RefreshGallery());
         } else {
             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
             alertBuilder.setCancelable(true);
@@ -134,6 +143,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public Fragment getGalleryFragment() {
-       return getSupportFragmentManager().findFragmentById(R.id.container);
+        return getSupportFragmentManager().findFragmentById(R.id.container);
     }
 }

@@ -44,5 +44,10 @@ public class Events {
         }
     }
 
+    public static class RefreshGallery{
+        public RefreshGallery() {
+        }
+    }
+
 
 }
