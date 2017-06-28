@@ -1,10 +1,8 @@
 package com.ramraj.work.fragment;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,7 +14,6 @@ import com.ramraj.work.Constants;
 import com.ramraj.work.Events;
 import com.ramraj.work.R;
 import com.ramraj.work.activity.HomeActivity;
-import com.ramraj.work.activity.ImageEditActivity;
 import com.ramraj.work.adapter.FavoritesAdapter;
 import com.ramraj.work.base.BaseFragment;
 import com.ramraj.work.db.StorageService;

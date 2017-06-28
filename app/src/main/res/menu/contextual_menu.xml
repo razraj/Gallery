@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/item_done"
-        android:icon="@android:drawable/ic_menu_agenda"
+        android:icon="@drawable/checked2"
         android:showAsAction="ifRoom|withText"
         android:title="Done"
         android:titleCondensed="DOne"

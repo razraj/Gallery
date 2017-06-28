@@ -7,20 +7,31 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="380dp">
+
         <ImageView
-            android:scaleType="centerCrop"
             android:id="@+id/image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
 
         <com.ramraj.work.widget.DragRectView
             android:id="@+id/view1"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>
-    <View
-        android:background="@android:color/black"
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="@android:color/black">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="drag to select image"
+            android:textColor="@android:color/white" />
+    </FrameLayout>
 
 </LinearLayout>

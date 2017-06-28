@@ -7,17 +7,6 @@ import com.ramraj.work.model.Image;
  */
 
 public class Events {
-    public static class ImageEditSelectedEvent{
-        private Image image;
-
-        public ImageEditSelectedEvent(Image image) {
-            this.image = image;
-        }
-
-        public Image getImage() {
-            return image;
-        }
-    }
 
     public static class ImageSelectedEvent{
         private Image image;
@@ -30,4 +19,30 @@ public class Events {
             return image;
         }
     }
+
+    public static class OnItemClicked {
+        private int position;
+
+        public OnItemClicked(int position) {
+            this.position = position;
+        }
+
+        public int getPosition() {
+            return position;
+        }
+    }
+
+    public static class OnItemLongClicked {
+        private int position;
+
+        public OnItemLongClicked (int position) {
+            this.position = position;
+        }
+
+        public int getPosition() {
+            return position;
+        }
+    }
+
+
 }

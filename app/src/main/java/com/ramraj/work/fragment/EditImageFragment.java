@@ -11,27 +11,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.ramraj.work.R;
-import com.ramraj.work.adapter.CropingOptionAdapter;
 import com.ramraj.work.base.BaseFragment;
 import com.ramraj.work.db.StorageService;
-import com.ramraj.work.model.CropingOption;
 import com.ramraj.work.model.Image;
-import com.ramraj.work.utils.Utils;
 import com.ramraj.work.widget.DragRectView;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -102,78 +94,6 @@ public class EditImageFragment extends BaseFragment {
             });
         }
     }
-
-//    private void CropingIMG(final Uri mImageCaptureUri){
-//        final ArrayList<CropingOption> cropOptions = new ArrayList<CropingOption>();
-//
-//        Intent intent = new Intent("com.android.camera.action.CROP");
-//        intent.setType("image/*");
-//
-//        List<ResolveInfo> list = getActivity().getPackageManager().queryIntentActivities( intent, 0 );
-//        int size = list.size();
-//        if (size == 0) {
-//            Utils.showToast("Cann't find image croping app");
-//            return;
-//        } else {
-//            intent.setData(mImageCaptureUri);
-//            intent.putExtra("outputX", 512);
-//            intent.putExtra("outputY", 512);
-//            intent.putExtra("aspectX", 1);
-//            intent.putExtra("aspectY", 1);
-//            intent.putExtra("scale", true);
-//
-//            //TODO: don't use return-data tag because it's not return large image data and crash not given any message
-//            //intent.putExtra("return-data", true);
-//
-//            //Create output file here
-////            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(outPutFile));
-//
-//            if (size == 1) {
-//                Intent i   = new Intent(intent);
-//                ResolveInfo res = (ResolveInfo) list.get(0);
-//
-//                i.setComponent( new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-//
-//                startActivityForResult(i, CROPING_CODE);
-//            } else {
-//                for (ResolveInfo res : list) {
-//                    final CropingOption co = new CropingOption();
-//
-//                    co.title  = getActivity().getPackageManager().getApplicationLabel(res.activityInfo.applicationInfo);
-//                    co.icon  = getActivity().getPackageManager().getApplicationIcon(res.activityInfo.applicationInfo);
-//                    co.appIntent= new Intent(intent);
-//                    co.appIntent.setComponent( new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-//                    cropOptions.add(co);
-//                }
-//
-//                CropingOptionAdapter adapter = new CropingOptionAdapter(getContext(), cropOptions);
-//
-//                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-//                builder.setTitle("Choose Croping App");
-//                builder.setCancelable(false);
-//                builder.setAdapter( adapter, new DialogInterface.OnClickListener() {
-//                    public void onClick( DialogInterface dialog, int item ) {
-//                        startActivityForResult( cropOptions.get(item).appIntent, CROPING_CODE);
-//                    }
-//                });
-//
-//                builder.setOnCancelListener( new DialogInterface.OnCancelListener() {
-//                    @Override
-//                    public void onCancel( DialogInterface dialog ) {
-//
-//                        if (mImageCaptureUri != null ) {
-//                            getActivity().getContentResolver().delete(mImageCaptureUri, null, null );
-////                            mImageCaptureUri = null;
-//                        }
-//                    }
-//                } );
-//
-//                AlertDialog alert = builder.create();
-//                alert.show();
-//            }
-//        }
-//    }
-
 
 
 }

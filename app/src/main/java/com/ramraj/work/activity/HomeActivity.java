@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -21,6 +22,8 @@ import com.ramraj.work.R;
 import com.ramraj.work.fragment.EditImageFragment;
 import com.ramraj.work.fragment.FavoritesFragment;
 import com.ramraj.work.fragment.GalleryFragment;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 
@@ -128,5 +131,9 @@ public class HomeActivity extends AppCompatActivity {
     public void shouldDisplayHomeUp() {
         boolean canBack = getSupportFragmentManager().getBackStackEntryCount() > 0;
         getSupportActionBar().setDisplayHomeAsUpEnabled(canBack);
+    }
+
+    public Fragment getGalleryFragment() {
+       return getSupportFragmentManager().findFragmentById(R.id.container);
     }
 }

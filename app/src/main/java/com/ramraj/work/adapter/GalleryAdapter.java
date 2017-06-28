@@ -2,16 +2,19 @@ package com.ramraj.work.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.ramraj.work.Events;
 import com.ramraj.work.R;
 import com.ramraj.work.db.StorageService;
 import com.ramraj.work.model.Image;
 import com.ramraj.work.utils.ColorGenerator;
+import com.ramraj.work.utils.RxBus;
 import com.ramraj.work.utils.Utils;
 import com.ramraj.work.widget.TextDrawable;
 
@@ -31,6 +34,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryV
     private Context context;
     private ArrayList<Image> images = new ArrayList<>();
     public boolean isEditable = false;
+    private ArrayList<Image> likedImages = new ArrayList<>();
 
     public GalleryAdapter(Context context) {
         this.context = context;
@@ -41,6 +45,10 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryV
         notifyDataSetChanged();
     }
 
+    public void setEditable(boolean editable) {
+        isEditable = editable;
+        notifyDataSetChanged();
+    }
 
     @Override
     public GalleryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -55,7 +63,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryV
             if (image.isLiked())
                 Glide.with(context).load(R.drawable.checked).centerCrop().into(holder.like_thumbnail);
             else
-                Glide.with(context).load(R.drawable.circular_view).centerCrop().into(holder.like_thumbnail);
+                Glide.with(context).load(R.drawable.success).centerCrop().into(holder.like_thumbnail);
         } else {
             // I have already overridden  the other onBindViewHolder(ViewHolder, int)
             // The method with 3 arguments is being called before the method with 2 args.
@@ -78,9 +86,32 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryV
             if (image.isLiked())
                 Glide.with(context).load(R.drawable.checked).centerCrop().into(holder.like_thumbnail);
             else
-                Glide.with(context).load(R.drawable.circular_view).centerCrop().into(holder.like_thumbnail);
+                Glide.with(context).load(R.drawable.success).centerCrop().into(holder.like_thumbnail);
         } else
             holder.like_thumbnail.setVisibility(View.GONE);
+    }
+
+    public int getLikedImages() {
+        int liked=0;
+        for (int i = 0; i < images.size(); i++) {
+            if(images.get(i).isLiked())
+                liked++;
+        }
+        return liked;
+    }
+
+    public void toogleSelection(int position) {
+        if (!images.get(position).isLiked()) {
+            images.get(position).setLiked(true);
+            likedImages.add(images.get(position));
+            StorageService.getInstance().store(images.get(position));
+        } else if (StorageService.getInstance().delete(images.get(position).getUrl())) {
+            images.get(position).setLiked(false);
+            likedImages.remove(images.get(position));
+        } else
+            Utils.showToast("Something went wrong");
+//        setEditable(true);
+        notifyItemChanged(position, images.get(position));
     }
 
     @Override
@@ -103,25 +134,16 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryV
 
         @OnClick(R.id.thumbnail)
         void onLikeClick() {
-            if (!images.get(getAdapterPosition()).isLiked()) {
-                images.get(getAdapterPosition()).setLiked(true);
-                StorageService.getInstance().store(images.get(getAdapterPosition()));
-                notifyItemChanged(getAdapterPosition(), images.get(getAdapterPosition()));
-            } else if (StorageService.getInstance().delete(images.get(getAdapterPosition()).getUrl())) {
-                images.get(getAdapterPosition()).setLiked(false);
-                notifyItemChanged(getAdapterPosition(), images.get(getAdapterPosition()));
-            } else
-                Utils.showToast("Something went wrong");
+            RxBus.getInstance().sendEvent(new Events.OnItemClicked(getAdapterPosition()));
         }
 
         @OnLongClick(R.id.thumbnail)
         boolean onLikeLongClick() {
-            if (!isEditable)
-                isEditable = true;
-            else
-                isEditable = false;
-
-            notifyDataSetChanged();
+            if (!isEditable) {
+                setEditable(true);
+                Log.d("GalleryAdapter", "onLikeLongClick: " + this.getPosition());
+                RxBus.getInstance().sendEvent(new Events.OnItemLongClicked(this.getPosition()));
+            }
             return true;
         }
     }

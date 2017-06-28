@@ -48,9 +48,9 @@ public class DragRectView extends View {
         mCallback = callback;
     }
 
-    public void setRectCoordinates(int left,int top,int right,int bottom){
-        mStartX=left;
-        mStartY= top;
+    public void setRectCoordinates(int left, int top, int right, int bottom) {
+        mStartX = left;
+        mStartY = top;
         mEndX = right;
         mEndY = bottom;
         mDrawRect = true;
@@ -117,6 +117,13 @@ public class DragRectView extends View {
         maxwidth = viewWidth;
         maxheight = viewHeight;
 
+        if (mStartX == 0 && mStartY == 0 && mEndX == 0 && mEndY == 0) {
+            mStartX = 20;
+            mStartY = 20;
+            mEndX = viewWidth - 20;
+            mEndY = viewHeight - 20;
+            mDrawRect = true;
+        }
     }
 
     @Override
