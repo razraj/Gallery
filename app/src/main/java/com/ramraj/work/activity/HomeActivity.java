@@ -2,6 +2,8 @@ package com.ramraj.work.activity;
 
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,10 +18,14 @@ import android.view.MenuItem;
 import com.ramraj.work.Constants;
 import com.ramraj.work.GalleryImagesObserver;
 import com.ramraj.work.R;
+import com.ramraj.work.fragment.EditImageFragment;
+import com.ramraj.work.fragment.FavoritesFragment;
 import com.ramraj.work.fragment.GalleryFragment;
 
 import butterknife.ButterKnife;
 
+import static com.ramraj.work.Constants.EDITIMAGE;
+import static com.ramraj.work.Constants.FAVORITES;
 import static com.ramraj.work.Constants.HOME_TAG;
 
 public class HomeActivity extends AppCompatActivity {
@@ -68,6 +74,19 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        invalidateOptionsMenu();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+
     public void showGallery() {
         if (ContextCompat.checkSelfPermission(this, PERMISSION_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             GalleryImagesObserver.getInstance().refreshGallery();
@@ -86,6 +105,24 @@ public class HomeActivity extends AppCompatActivity {
             AlertDialog alert = alertBuilder.create();
             alert.show();
         }
+    }
+
+    public void switchFragment(@NonNull String fragmentTag, @NonNull String url) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        switch (fragmentTag) {
+            case FAVORITES:
+                FavoritesFragment favoritesFragment = new FavoritesFragment();
+                ft.replace(R.id.container, favoritesFragment, fragmentTag);
+                ft.addToBackStack("FavoritesFragment");
+                break;
+            case EDITIMAGE:
+                EditImageFragment editImageFragment = new EditImageFragment();
+                editImageFragment.setUrl(url);
+                ft.replace(R.id.container, editImageFragment, fragmentTag);
+                ft.addToBackStack("EditImageFragment");
+                break;
+        }
+        ft.commit();
     }
 
     public void shouldDisplayHomeUp() {

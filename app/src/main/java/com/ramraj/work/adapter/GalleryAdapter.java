@@ -88,7 +88,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryV
         return images.size();
     }
 
-    class GalleryViewHolder extends RecyclerView.ViewHolder {
+    public class GalleryViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.thumbnail)
         ImageView thumbnail;
@@ -101,7 +101,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryV
             ButterKnife.bind(this, itemView);
         }
 
-        @OnClick(R.id.like_thumbnail)
+        @OnClick(R.id.thumbnail)
         void onLikeClick() {
             if (!images.get(getAdapterPosition()).isLiked()) {
                 images.get(getAdapterPosition()).setLiked(true);

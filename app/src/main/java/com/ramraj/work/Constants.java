@@ -5,6 +5,9 @@ package com.ramraj.work;
  */
 
 public class Constants {
+    public static final String FAVORITES = "favorites";
+    public static final String EDITIMAGE = "EDITIMAGE";
+
     public static final String HOME_TAG= "home";
     public static final int STORAGE_PERMISSION = 1001;
 
