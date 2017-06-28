@@ -48,6 +48,15 @@ public class DragRectView extends View {
         mCallback = callback;
     }
 
+    public void setRectCoordinates(int left,int top,int right,int bottom){
+        mStartX=left;
+        mStartY= top;
+        mEndX = right;
+        mEndY = bottom;
+        mDrawRect = true;
+        invalidate();
+    }
+
     private void init() {
         mRectPaint = new Paint();
         mRectPaint.setColor(getContext().getResources().getColor(android.R.color.holo_green_light));

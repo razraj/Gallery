@@ -67,8 +67,6 @@ public class FavoritesFragment extends BaseFragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(adapter);
 
-        observeItemClick();
-
         if (images != null)
             recyclerView.setAdapter(adapter);
         else
