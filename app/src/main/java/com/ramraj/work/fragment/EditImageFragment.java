@@ -139,7 +139,7 @@ public class EditImageFragment extends BaseFragment {
                     }, new Consumer<Throwable>() {
                         @Override
                         public void accept(@NonNull Throwable throwable) throws Exception {
-                            Log.d(TAG, "accept: something went wrong");
+                            Log.d(TAG, "accept: something went wrong"+throwable);
                         }
                     });
         } catch (FileNotFoundException e) {
