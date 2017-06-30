@@ -8,22 +8,44 @@
         android:layout_width="match_parent"
         android:layout_height="380dp">
 
-        <ImageView
-            android:id="@+id/image"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
 
-        <com.ramraj.work.widget.DragRectView
-            android:id="@+id/view1"
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"/>
+
+            <com.ramraj.work.widget.OverlayImageView
+                android:id="@+id/overlay_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/crop_now"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="48dp"
+            android:layout_gravity="bottom"
+            android:text="crop now" />
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/black">
+        android:background="@android:color/darker_gray">
+
+        <ImageView
+            android:id="@+id/croped_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY" />
 
         <TextView
             android:layout_width="wrap_content"
